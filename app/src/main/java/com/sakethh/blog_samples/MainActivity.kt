@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                BoxWithConstraintLayoutExample()
+                ConstraintLayoutExample()
             }
         }
     }
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MaterialTheme {
-        BoxWithConstraintLayoutExample()
+        ConstraintLayoutExample()
     }
 }
 
@@ -86,72 +86,5 @@ fun ConstraintLayoutExample() {
                 .background(Color.LightGray)
                 .layoutId("composable3")
         )
-    }
-}
-
-@Composable
-fun BoxWithConstraintLayoutExample() {
-    val constraintSet = ConstraintSet {
-        val pauseButton = createRefFor("pauseButton")
-        val previousTrackButton = createRefFor("previousTrackButton")
-        val nextTrackButton = createRefFor("nextTrackButton")
-        constrain(pauseButton) {
-            top.linkTo(parent.top)  // for this particular example "parent" is "BoxWithConstraints"
-            start.linkTo(parent.start)  // for this particular example "parent" is "BoxWithConstraints"
-            end.linkTo(parent.end)  // for this particular example "parent" is "BoxWithConstraints"
-            bottom.linkTo(parent.bottom)  // for this particular example "parent" is "BoxWithConstraints"
-        }
-        constrain(previousTrackButton) {
-            top.linkTo(pauseButton.top)
-            end.linkTo(pauseButton.start)
-            bottom.linkTo(pauseButton.bottom)
-        }
-        constrain(nextTrackButton) {
-            top.linkTo(pauseButton.top)
-            start.linkTo(pauseButton.end)
-            bottom.linkTo(pauseButton.bottom)
-        }
-    }
-    BoxWithConstraints(  //   0 . "BoxWithConstraints"
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        ConstraintLayout( //   1 . "BoxWithConstraints" which contains "ConstraintLayout" stuff!
-            constraintSet = constraintSet, modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(Color.DarkGray)
-                .align(Alignment.Center)
-        ) {
-            IconButton(
-                modifier = Modifier
-                    .layoutId("pauseButton")  // layoutID
-                    .background(color = Color.White, shape = CircleShape)
-                    .size(55.dp), onClick = {}) {
-                Image(
-                    painter = painterResource(id = R.drawable.pause_icon_current_music_screen),
-                    contentDescription = "",
-                    modifier = Modifier.size(35.dp)
-                )
-            }
-            IconButton(
-                modifier = Modifier.layoutId("previousTrackButton")  // layoutID
-                , onClick = {}) {
-                Image(
-                    painter = painterResource(id = R.drawable.previoustrack),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-            IconButton(modifier = Modifier.layoutId("nextTrackButton"),   // layoutID
-                onClick = {}) {
-                Image(
-                    painter = painterResource(id = R.drawable.nexttrack),
-                    contentDescription = "",
-                    modifier = Modifier.size(40.dp)
-                )
-            }
-        }
     }
 }
